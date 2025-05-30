@@ -4,8 +4,10 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{hyperref}
 
 \begin{document}
 
@@ -57,14 +59,14 @@ Dalam model non-linear, fungsi pendapatan dapat menurun setelah mencapai titik t
 Dalam model non-linear yang digunakan, fungsi pendapatan dan biaya didefinisikan sebagai berikut:
 
 \begin{itemize}
-\item Fungsi Pendapatan: $R(x) = ax - bx^2$
+\item Fungsi Pendapatan: $R(x) = ax - bx^3$
 \begin{itemize}
 \item $a$ : koefisien pendapatan linear (harga per unit)
 \item $b$ : koefisien penurunan pendapatan
 \item $x$ : jumlah unit yang diproduksi/dijual
 \end{itemize}
 
-\item Fungsi Biaya: $C(x) = cx^2 + dx + e$
+\item Fungsi Biaya: $C(x) = cx^2 + de^{0.01x} + e$
 \begin{itemize}
 \item $c$ : koefisien biaya kuadratik
 \item $d$ : koefisien biaya variabel
@@ -73,25 +75,26 @@ Dalam model non-linear yang digunakan, fungsi pendapatan dan biaya didefinisikan
 \end{itemize}
 
 Titik impas terjadi ketika $R(x) = C(x)$, atau:
-\[ax - bx^2 = cx^2 + dx + e\]
-\[-(b+c)x^2 + (a-d)x - e = 0\]
+\[ax - bx^3 = cx^2 + de^{0.01x} + e\]
+\[-bx^3 - cx^2 + ax - de^{0.01x} - e = 0\]
 
 Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang menandakan rentang operasi yang menguntungkan di antara kedua titik tersebut.
 
 \section{Data yang Digunakan}
 Program menggunakan dataset dengan parameter sebagai berikut:
 \begin{itemize}
-\item $a$: nilai acak antara 100-150 (tingkat pendapatan yang tinggi)
-\item $b$: nilai acak antara 0.05-0.10 (tingkat penurunan yang rendah)
-\item $c$: nilai acak antara 0.02-0.05 (biaya kuadratik yang rendah)
-\item $d$: nilai acak antara 30-50 (biaya variabel yang wajar)
-\item $e$: nilai acak antara 500-1000 (biaya tetap yang moderat)
+\item $a$: nilai acak antara 200-300 (tingkat pendapatan yang tinggi)
+\item $b$: nilai acak antara 0.0005-0.0011 (tingkat penurunan yang rendah)
+\item $c$: nilai acak antara 0.10-0.25 (kenaikan biaya yang lebih curam)
+\item $d$: nilai acak antara 100-200 (biaya variabel eksponensial yang wajar)
+\item $e$: nilai acak antara 2000-5000 (biaya tetap yang moderat)
 \end{itemize}
 
 Parameter ini dipilih untuk mensimulasikan skenario bisnis yang realistis dengan:
 \begin{itemize}
 \item Pendapatan awal yang tinggi namun menurun seiring peningkatan kuantitas
-\item Biaya variabel yang meningkat secara linear
+\item Pendapatan yang menurun drastis ketika terjadi oversupply (harga menurun)
+\item Biaya variabel yang meningkat secara eksponensial
 \item Biaya tetap yang moderat
 \item Kompleksitas operasional yang meningkat secara kuadratik
 \end{itemize}
@@ -122,42 +125,41 @@ Algoritma metode Secant dalam pseudocode:
 \end{algorithmic}
 
 \section{Analisa Hasil}
+
 \subsection{Analisis Dataset}
 Dari kelima dataset yang digunakan, berikut adalah hasil analisis komprehensif:
-
 \begin{itemize}
-\item \textbf{Rentang Optimal Quantity:} 242.15 - 253.67 unit
-\item \textbf{Rentang Maximum Profit:} \$22,876.34 - \$26,123.78
-\item \textbf{Rata-rata Iterasi:} 5.8 iterasi
-\item \textbf{Rentang Error:} 0.49\% - 3.14\%
+\item \textbf{Rentang High BEP:} 11.36 – 17.90 unit
+\item \textbf{Rentang Low BEP:} 394.01 - 483.71 unit
+\item \textbf{Rentang Low Range BEP:} 376.10 - 468.19 unit
+\item \textbf{Rata-rata Iterasi:} 5-7 iterasi
 \end{itemize}
 
 Observasi penting:
 \begin{itemize}
-\item Semua dataset menunjukkan optimal quantity di sekitar 250 unit, yang sesuai dengan ekspektasi TRUE\_VALUE
-\item Error percentage relatif kecil (< 5\%) menunjukkan akurasi metode Secant yang baik
-\item Jumlah iterasi yang konsisten (5-7) menunjukkan konvergensi yang stabil
-\item Dataset 5 menghasilkan profit tertinggi karena kombinasi revenue rate tinggi (a = 149) dan biaya variabel rendah (d = 32)
-\item Dataset 4 memiliki profit terendah karena biaya variabel tinggi (d = 45) dan revenue rate rendah (a = 135)
+\item Semua dataset menunjukkan optimal quantity yang bervariasi namun konvergen
+\item Jumlah iterasi yang konsisten (5–6) menunjukkan konvergensi yang stabil
+\item Dataset 4 menghasilkan profit tertinggi dengan kombinasi decay rate rendah ($b = 0.0005$)
+\item Dataset 2 memiliki profit terendah meski memiliki koefisien moderat
 \end{itemize}
 
 \subsection{Detail Dataset}
-Berikut adalah detail model matematis dan hasil analisis untuk masing-masing dataset:
 
 \subsubsection{Dataset 1}
 \begin{itemize}
 \item \textbf{Model Matematis:}
 \begin{itemize}
-\item Revenue: $R(x) = 147x - 0.08x^2$
-\item Cost: $C(x) = 0.03x^2 + 42x + 555$
-\item Profit: $P(x) = R(x) - C(x) = -0.11x^2 + 105x - 555$
+\item Revenue: \( R(x) = 276x - 0.001x^3 \)
+\item Cost: \( C(x) = 0.18x^2 + 105e^{0.01x} + 3381 \)
+\item Profit: \( P(x) = -0.001x^3 - 0.18x^2 + 276x - 105e^{0.01x} - 3381 \)
 \end{itemize}
 \item \textbf{Hasil Analisis:}
 \begin{itemize}
-\item Optimal quantity: 251.23 unit
-\item Maximum profit: \$25,461.85
-\item Total iterations: 6
-\item Error: 0.49\%
+\item High BEP              : 12.80
+\item Iterations High BEP   : 5
+\item Low BEP               : 419.36
+\item Iterations Low BEP    : 7
+\item Profit Range : 406.56
 \end{itemize}
 \end{itemize}
 
@@ -165,16 +167,17 @@ Berikut adalah detail model matematis dan hasil analisis untuk masing-masing dat
 \begin{itemize}
 \item \textbf{Model Matematis:}
 \begin{itemize}
-\item Revenue: $R(x) = 138x - 0.07x^2$
-\item Cost: $C(x) = 0.04x^2 + 35x + 678$
-\item Profit: $P(x) = -0.11x^2 + 103x - 678$
+\item Revenue: \( R(x) = 235x - 0.0008x^3 \)
+\item Cost: \( C(x) = 0.22x^2 + 107e^{0.01x} + 4004 \)
+\item Profit: \( P(x) = -0.0008x^3 - 0.22x^2 + 235x - 107e^{0.01x} - 4004 \)
 \end{itemize}
 \item \textbf{Hasil Analisis:}
 \begin{itemize}
-\item Optimal quantity: 248.76 unit
-\item Maximum profit: \$23,987.12
-\item Total iterations: 5
-\item Error: 0.50\%
+\item High BEP : 17.90
+\item Iterations High BEP : 6
+\item Low BEP : 394.01
+\item Iterations Low BEP : 7
+\item Profit Range : 376.10
 \end{itemize}
 \end{itemize}
 
@@ -182,16 +185,17 @@ Berikut adalah detail model matematis dan hasil analisis untuk masing-masing dat
 \begin{itemize}
 \item \textbf{Model Matematis:}
 \begin{itemize}
-\item Revenue: $R(x) = 142x - 0.09x^2$
-\item Cost: $C(x) = 0.02x^2 + 38x + 722$
-\item Profit: $P(x) = -0.11x^2 + 104x - 722$
+\item Revenue: \( R(x) = 266x - 0.0005x^3 \)
+\item Cost: \( C(x) = 0.21x^2 + 151e^{0.01x} + 3901 \)
+\item Profit: \( P(x) = -0.0005x^3 - 0.21x^2 + 266x - 151e^{0.01x} - 3901 \)
 \end{itemize}
 \item \textbf{Hasil Analisis:}
 \begin{itemize}
-\item Optimal quantity: 245.89 unit
-\item Maximum profit: \$24,123.45
-\item Total iterations: 7
-\item Error: 1.64\%
+\item High BEP : 15.53
+\item Iterations High BEP : 5
+\item Low BEP : 483.71
+\item Iterations Low BEP : 6
+\item Profit Range : 468.19
 \end{itemize}
 \end{itemize}
 
@@ -199,16 +203,17 @@ Berikut adalah detail model matematis dan hasil analisis untuk masing-masing dat
 \begin{itemize}
 \item \textbf{Model Matematis:}
 \begin{itemize}
-\item Revenue: $R(x) = 135x - 0.06x^2$
-\item Cost: $C(x) = 0.05x^2 + 45x + 612$
-\item Profit: $P(x) = -0.11x^2 + 90x - 612$
+\item Revenue: \( R(x) = 286x - 0.0007x^3 \)
+\item Cost: \( C(x) = 0.16x^2 + 171e^{0.01x} + 3037 \)
+\item Profit: \( P(x) = -0.0007x^3 - 0.16x^2 + 286x - 171e^{0.01x} - 3037 \)
 \end{itemize}
 \item \textbf{Hasil Analisis:}
 \begin{itemize}
-\item Optimal quantity: 242.15 unit
-\item Maximum profit: \$22,876.34
-\item Total iterations: 6
-\item Error: 3.14\%
+\item High BEP              : 11.36
+\item Iterations High BEP   : 5
+\item Low BEP               : 478.54
+\item Iterations Low BEP    : 6
+\item Profit Range : 467.17
 \end{itemize}
 \end{itemize}
 
@@ -216,217 +221,112 @@ Berikut adalah detail model matematis dan hasil analisis untuk masing-masing dat
 \begin{itemize}
 \item \textbf{Model Matematis:}
 \begin{itemize}
-\item Revenue: $R(x) = 149x - 0.10x^2$
-\item Cost: $C(x) = 0.03x^2 + 32x + 845$
-\item Profit: $P(x) = -0.13x^2 + 117x - 845$
+\item Revenue: \( R(x) = 258x - 0.0006x^3 \)
+\item Cost: \( C(x) = 0.14x^2 + 197e^{0.01x} + 3431 \)
+\item Profit: \( P(x) = -0.0006x^3 - 0.14x^2 + 258x - 197e^{0.01x} - 3431 \)
 \end{itemize}
 \item \textbf{Hasil Analisis:}
 \begin{itemize}
-\item Optimal quantity: 253.67 unit
-\item Maximum profit: \$26,123.78
-\item Total iterations: 5
-\item Error: 1.47\%
+\item High BEP : 14.30
+\item Iterations High BEP : 5
+\item Low BEP : 475.90
+\item Iterations Low BEP : 6
+\item Profit Range : 461.60
 \end{itemize}
 \end{itemize}
 
-\subsection{Implementasi Program}
-Program kami sebagai berikut:
 \subsection{Implementasi Kode Program}
-Kode program C++ utama (\texttt{main.cpp}) yang digunakan untuk analisis komprehensif adalah sebagai berikut. Program ini membaca data parameter dari file \texttt{synthetic\_data.txt} yang dihasilkan sebelumnya.
-\begingroup % Start a group to keep the font size change local
-\tiny % Or \footnotesize, \scriptsize, \tiny
-\begin{verbatim}
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+Kode program C utama (\texttt{break\_even\_analysis.c}) yang digunakan untuk analisis komprehensif adalah sebagai berikut. Program ini membaca data parameter dari file \texttt{dataset.txt} yang dihasilkan sebelumnya.
 
-#define MIN_QUANTITY 0
-#define MAX_QUANTITY 500
-#define TRUE_VALUE 250  // Assumed true value for error calculation
-#define STEP 20
-#define MAX_ITERATIONS 100
-#define EPSILON 0.0001
+\section*{Analisis Break-Even Berdasarkan Dataset}
 
-// Function to calculate profit derivative at a given quantity
-// P'(x) = a - 2bx - 2cx - d
-double calculateProfitDerivative(double x, double a, double b, double c, double d, double e) {
-    return a - 2*b*x - 2*c*x - d;
-}
+Grafik-grafik berikut menggambarkan analisis titik impas untuk 5 dataset yang berbeda. Setiap grafik menunjukkan pendapatan (Revenue), biaya (Cost), dan laba (Profit) sebagai fungsi kuantitas (Quantity).
 
-// Function to calculate profit at a given quantity
-double calculateProfit(double x, double a, double b, double c, double d, double e) {
-    // Revenue: R(x) = ax - bx^2
-    // Cost: C(x) = cx^2 + dx + e
-    // Profit: P(x) = R(x) - C(x)
-    return (a*x - b*pow(x,2)) - (c*pow(x,2) + d*x + e);
-}
+\subsection*{Dataset 1: Analisis Detail}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{break_even_analysis_1.png}
+    \caption{Analisis Titik Impas - Dataset 1}
+    \label{fig:dataset1_new}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Deskripsi Grafis:} Kurva \textbf{Revenue} menunjukkan peningkatan parabolik ke atas, mencapai puncak sekitar kuantitas 280-300, lalu menurun. Kurva \textbf{Cost} meningkat secara non-linear, membentuk kurva ke atas (konkav ke atas). Kurva \textbf{Profit} naik awal, mencapai puncak positif yang signifikan sekitar kuantitas 250, lalu menurun drastis menjadi negatif.
+    \item \textbf{Analisis Mendalam:}
+    \begin{itemize}
+        \item \textbf{Break-Even Points:} Terlihat dua titik impas. Titik impas pertama terjadi sangat awal, di sekitar kuantitas 0-20. Titik impas kedua terjadi di sekitar kuantitas 400.
+        \item \textbf{Zona Profitabilitas:} Perusahaan profitabel di antara kedua titik impas ini. Profit maksimum dicapai saat kuantitas sekitar 250-280, di mana selisih antara Revenue dan Cost paling besar.
+        \item \textbf{Implikasi Bisnis:} Bentuk Revenue yang melengkung menunjukkan potensi peningkatan pendapatan yang baik pada awalnya, namun kemudian mengalami penurunan. Biaya yang meningkat non-linear (semakin cepat) mengindikasikan mungkin ada biaya tambahan per unit pada volume produksi tinggi. Optimalisasi berada di rentang kuantitas profitabilitas untuk menghindari kerugian di ujung bawah atau atas.
+    \end{itemize}
+\end{itemize}
 
-// Secant method implementation with detailed output
-double secantMethod(double x0, double x1, double a, double b, double c, double d, double e, 
-                   double (*func)(double, double, double, double, double, double), int* iter_count) {
-    double f0, f1, x2;
-    int iterations = 0;
-    
-    printf("\nSecant Method Iterations:\n");
-    printf("--------------------------------\n");
-    printf("Iter |    x0    |    x1    |    x2    \n");
-    printf("--------------------------------\n");
-    
-    do {
-        f0 = func(x0, a, b, c, d, e);
-        f1 = func(x1, a, b, c, d, e);
-        
-        if (fabs(f1 - f0) < EPSILON) {
-            printf("Method failed - division by zero\n");
-            return -1;
-        }
-        
-        x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
-        printf("%3d  | %8.4f | %8.4f | %8.4f\n", iterations, x0, x1, x2);
-        
-        x0 = x1;
-        x1 = x2;
-        
-        iterations++;
-    } while (fabs(func(x2, a, b, c, d, e)) > EPSILON && iterations < MAX_ITERATIONS);
-    
-    if (iterations >= MAX_ITERATIONS) {
-        printf("Method failed to converge\n");
-        return -1;
-    }
-    
-    *iter_count = iterations;
-    return x2;
-}
+\subsection*{Dataset 2: Analisis Detail}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{break_even_analysis_2.png}
+    \caption{Analisis Titik Impas - Dataset 2}
+    \label{fig:dataset2_new}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Deskripsi Grafis:} Kurva \textbf{Revenue} mirip Dataset 1, naik, puncak sekitar kuantitas 300, lalu menurun. Kurva \textbf{Cost} meningkat non-linear, lebih curam dari Dataset 1 pada kuantitas tinggi. Kurva \textbf{Profit} naik, mencapai puncak positif yang lebih rendah dari Dataset 1, lalu menurun tajam menjadi sangat negatif.
+    \item \textbf{Analisis Mendalam:}
+    \begin{itemize}
+        \item \textbf{Break-Even Points:} Titik impas pertama sangat dekat dengan kuantitas 0. Titik impas kedua sekitar kuantitas 400.
+        \item \textbf{Zona Profitabilitas:} Sempit, dengan profit maksimum yang lebih rendah dibandingkan Dataset 1, sekitar kuantitas 250-280.
+        \item \textbf{Implikasi Bisnis:} Peningkatan biaya yang lebih agresif membuat zona profitabilitas kurang menarik. Margin keuntungan kecil. Perlu strategi untuk mengurangi biaya atau meningkatkan nilai pendapatan per unit, terutama pada volume yang lebih tinggi, untuk mencegah kerugian besar.
+    \end{itemize}
+\end{itemize}
 
-// Calculate relative error
-double calculateError(double approximate, double true_value) {
-    return fabs((true_value - approximate) / true_value) * 100;
-}
+\subsection*{Dataset 3: Analisis Detail}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{break_even_analysis_3.png}
+    \caption{Analisis Titik Impas - Dataset 3}
+    \label{fig:dataset3_new}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Deskripsi Grafis:} Kurva \textbf{Revenue} meningkat lebih tinggi dan mencapai puncaknya lebih lambat (sekitar kuantitas 400), lalu sedikit menurun. Kurva \textbf{Cost} meningkat non-linear, sangat agresif pada kuantitas tinggi. Kurva \textbf{Profit} naik, mencapai puncak positif signifikan sekitar kuantitas 280, lalu menurun drastis menjadi sangat negatif.
+    \item \textbf{Analisis Mendalam:}
+    \begin{itemize}
+        \item \textbf{Break-Even Points:} Titik impas pertama dekat kuantitas 0. Titik impas kedua sekitar kuantitas 490 (mendekati ujung grafik).
+        \item \textbf{Zona Profitabilitas:} Rentang profitabilitas lebih luas dibandingkan dataset sebelumnya. Profit maksimum yang tinggi menunjukkan potensi keuntungan yang baik di kuantitas menengah.
+        \item \textbf{Implikasi Bisnis:} Meskipun Revenue dapat tumbuh sangat tinggi, kenaikan Cost yang tajam pada kuantitas tinggi (setelah puncak profit) tetap menyebabkan kerugian ekstrem. Ini menunjukkan bahwa meskipun pendapatan tinggi, efisiensi biaya harus diperhatikan pada volume besar.
+    \end{itemize}
+\end{itemize}
 
-void displayCoefficients(double a, double b, double c, double d, double e) {
-    printf("\nCoefficients Table:\n");
-    printf("+---+--------+\n");
-    printf("| a | %6.2f |\n", a);
-    printf("| b | %6.2f |\n", b);
-    printf("| c | %6.2f |\n", c);
-    printf("| d | %6.2f |\n", d);
-    printf("| e | %6.2f |\n", e);
-    printf("+---+--------+\n");
-}
+\subsection*{Dataset 4: Analisis Detail}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{break_even_analysis_4.png}
+    \caption{Analisis Titik Impas - Dataset 4}
+    \label{fig:dataset4_new}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Deskripsi Grafis:} Kurva \textbf{Revenue} naik, puncak sekitar kuantitas 380-400, lalu menurun. Kurva \textbf{Cost} meningkat non-linear. Kurva \textbf{Profit} naik, mencapai puncak positif yang signifikan sekitar kuantitas 280-300, lalu menurun tajam menjadi sangat negatif.
+    \item \textbf{Analisis Mendalam:}
+    \begin{itemize}
+        \item \textbf{Break-Even Points:} Titik impas pertama dekat kuantitas 0. Titik impas kedua sekitar kuantitas 470.
+        \item \textbf{Zona Profitabilitas:} Relatif luas, dengan profit maksimum yang sehat.
+        \item \textbf{Implikasi Bisnis:} Mirip dengan Dataset 3, potensi pendapatan tinggi. Namun, peningkatan Cost pada kuantitas tinggi tetap menjadi ancaman. Manajemen harus menargetkan kuantitas di sekitar profit maksimum dan menghindari produksi berlebihan yang akan menyebabkan kerugian besar.
+    \end{itemize}
+\end{itemize}
 
-void saveToFile(double quantity, double revenue, double cost, double profit, FILE *fp) {
-    fprintf(fp, "%.2f %.2f %.2f %.2f\n", quantity, revenue, cost, profit);
-}
+\subsection*{Dataset 5: Analisis Detail}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{break_even_analysis_5.png}
+    \caption{Analisis Titik Impas - Dataset 5}
+    \label{fig:dataset5_new}
+\end{figure}
+\begin{itemize}
+    \item \textbf{Deskripsi Grafis:} Kurva \textbf{Revenue} naik, puncak sekitar kuantitas 380-400, lalu menurun. Kurva \textbf{Cost} meningkat non-linear. Kurva \textbf{Profit} naik, mencapai puncak positif yang signifikan sekitar kuantitas 280-300, lalu menurun tajam menjadi sangat negatif.
+    \item \textbf{Analisis Mendalam:}
+    \begin{itemize}
+        \item \textbf{Break-Even Points:} Titik impas pertama dekat kuantitas 0. Titik impas kedua sekitar kuantitas 470.
+        \item \textbf{Zona Profitabilitas:} Luas, dengan profit maksimum yang baik.
+        \item \textbf{Implikasi Bisnis:} Perilaku grafik sangat mirip dengan Dataset 4, menunjukkan potensi keuntungan yang baik pada kuantitas menengah. Penting untuk mengelola biaya dan tidak memproduksi melebihi titik profit maksimum untuk menghindari kerugian besar yang disebabkan oleh peningkatan biaya yang cepat.
+    \end{itemize}
+\end{itemize}
 
-void printTableRow(double quantity, double revenue, double cost, double profit) {
-    printf("| %8.2f | %10.2f | %10.2f | %10.2f |\n", quantity, revenue, cost, profit);
-}
-
-void printTableHeader() {
-    printf("\n+----------+------------+------------+------------+\n");
-    printf("| Quantity |   Revenue  |    Cost    |   Profit   |\n");
-    printf("+----------+------------+------------+------------+\n");
-}
-
-void printTableFooter() {
-    printf("+----------+------------+------------+------------+\n");
-}
-
-void processDataset(int datasetNum, double a, double b, double c, double d, double e) {
-    char resultsFile[50], plotFile[50];
-    sprintf(resultsFile, "results_%d.txt", datasetNum);
-    sprintf(plotFile, "plot_%d.gnu", datasetNum);
-
-    printf("\n===============================================\n");
-    printf("Analyzing Dataset %d\n", datasetNum);
-    printf("===============================================\n");
-
-    // Display coefficients
-    displayCoefficients(a, b, c, d, e);
-
-    // Open output file
-    FILE *output = fopen(resultsFile, "w");
-    if (output == NULL) {
-        printf("Error: Cannot create %s\n", resultsFile);
-        return;
-    }
-
-    // Find optimal profit point using secant method on the derivative
-    printf("\nFinding optimal profit point...\n");
-    int iter_count = 0;
-    double optimalPoint = secantMethod(0, MAX_QUANTITY/2, a, b, c, d, e, calculateProfitDerivative, &iter_count);
-    
-    if (optimalPoint >= 0) {
-        double optimalProfit = calculateProfit(optimalPoint, a, b, c, d, e);
-        double error = calculateError(optimalPoint, TRUE_VALUE);
-        
-        printf("\nOptimal Results:\n");
-        printf("---------------------------\n");
-        printf("Optimal quantity: %.2f\n", optimalPoint);
-        printf("Maximum profit: %.2f\n", optimalProfit);
-        printf("Total iterations: %d\n", iter_count);
-        printf("Error percentage: %.2f%%\n", error);
-    }
-
-    // Calculate and display data points for plotting
-    printTableHeader();
-
-    // Analyze range of quantities
-    for (double quantity = MIN_QUANTITY; quantity <= MAX_QUANTITY; quantity += STEP) {
-        double revenue = a * quantity - b * pow(quantity, 2);
-        double cost = c * pow(quantity, 2) + d * quantity + e;
-        double profit = revenue - cost;
-
-        printTableRow(quantity, revenue, cost, profit);
-        saveToFile(quantity, revenue, cost, profit, output);
-    }
-    
-    printTableFooter();
-    fclose(output);
-
-    // Create GNUplot script
-    FILE *gnuplot = fopen(plotFile, "w");
-    fprintf(gnuplot, "set title 'Break-Even Analysis - Dataset %d'\n", datasetNum);
-    fprintf(gnuplot, "set xlabel 'Quantity'\n");
-    fprintf(gnuplot, "set ylabel 'Amount'\n");
-    fprintf(gnuplot, "set grid\n");
-    fprintf(gnuplot, "plot '%s' using 1:2 title 'Revenue' with lines, \\\n", resultsFile);
-    fprintf(gnuplot, "     '%s' using 1:3 title 'Cost' with lines, \\\n", resultsFile);
-    fprintf(gnuplot, "     '%s' using 1:4 title 'Profit' with lines\n", resultsFile);
-    fprintf(gnuplot, "pause -1 'Press any key to continue...'\n");
-    fclose(gnuplot);
-
-    printf("\nResults have been saved to %s\n", resultsFile);
-    printf("Use 'gnuplot %s' to view the graphical analysis\n", plotFile);
-}
-
-int main() {
-    double a, b, c, d, e;
-    
-    FILE *input = fopen("dataset.txt", "r");
-    if (input == NULL) {
-        printf("Error: Cannot open dataset.txt\n");
-        return 1;
-    }
-
-    // Process each dataset
-    for (int i = 1; i <= 5; i++) {
-        if (fscanf(input, "%lf %lf %lf %lf %lf", &a, &b, &c, &d, &e) != 5) {
-            printf("Error: Invalid data format in dataset.txt\n");
-            fclose(input);
-            return 1;
-        }
-        processDataset(i, a, b, c, d, e);
-    }
-
-    fclose(input);
-
-    return 0;
-}
-
-\end{verbatim}
-\endgroup
 Program mengimplementasikan analisis dengan:
 \begin{itemize}
 \item Mencari multiple break-even points menggunakan berbagai tebakan awal
@@ -452,10 +352,17 @@ Implementasi break-even analysis untuk model non-linear menggunakan metode Secan
 
 Metode ini dapat digunakan untuk pengambilan keputusan bisnis dalam konteks di mana hubungan pendapatan-biaya bersifat non-linear.
 
+\section{Link Github}
+\url{https://github.com/AlexanderChristhian/Tugas_PemogramanB_Kelompok_10}.
+
+
 \begin{thebibliography}{00}
-\bibitem{b1} J. Antony and F. J. Antony, "Break Even Analysis," in Teaching and Learning Quality Methods, 2016.
-\bibitem{b2} R. L. Burden and J. D. Faires, "The Secant Method," in Numerical Analysis, 9th ed., 2010.
-\bibitem{b3} P. N. Kolm and G. A. Focused, "Numerical Methods for Financial Applications," in Mathematical Finance, 2019.
+\bibitem{b1} Steven C. C. and Raymond P. C., "The Secant Method," in Numerical Methods for Engineers, 2016.
+\bibitem{b2} J. Antony and F. J. Antony, "Break Even Analysis," in Teaching and Learning Quality Methods, 2016.
+\bibitem{b3} R. L. Burden and J. D. Faires, "The Secant Method," in Numerical Analysis, 9th ed., 2010.
+\bibitem{b4} P. N. Kolm and G. A. Focused, "Numerical Methods for Financial Applications," in Mathematical Finance, 2019.
 \end{thebibliography}
+
+
 
 \end{document}

@@ -300,7 +300,52 @@ fprintf(fp, "%.2f %.4f %.2f %.2f %.2f\n", a, b, c, d, e);
 
 ### Break-Even Analysis
 
-Program `break_even_analysis.c` membaca setiap koefisien yang telah diciptakan dalam `dataset.txt` untuk diproses menggunakan metode secant.
+Program `break_even_analysis.c` mengimplementasikan analisis break-even point dengan beberapa komponen utama:
+
+1. **Perhitungan Profit**
+   ```c
+   double calculateProfit(double x, double a, double b, double c, double d, double e) {
+       // Revenue: R(x) = a*x - b*x^3 (cubic revenue decay)
+       double revenue = a * x - b * pow(x, 3);
+       
+       // Cost: C(x) = c*x^2 + d*exp(0.01*x) + e (quadratic + exponential costs)
+       double cost = c * x * x + d * exp(0.01 * x) + e;
+       
+       // Profit: P(x) = R(x) - C(x)
+       return revenue - cost;
+   }
+   ```
+   Fungsi ini menghitung profit pada kuantitas tertentu dengan:
+   - Revenue model kubik yang menurun (a*x - b*x³)
+   - Cost model kuadratik + eksponensial (c*x² + d*e^(0.01x) + e)
+
+2. **Implementasi Metode Secant**
+   Program menggunakan metode Secant untuk mencari titik break-even dengan:
+   - Toleransi error (EPSILON) = 0.0001
+   - Maksimum iterasi = 100
+   - Initial guesses: x₀ = 0 dan x₁ = 500
+   - Output detail setiap iterasi termasuk x₀, x₁, x₂, dan P'(x₂)
+
+3. **Proses Analisis Data**
+   Program memproses dataset dengan langkah:
+   - Membaca koefisien dari dataset.txt
+   - Mencari dua titik break-even (low dan high)
+   - Menghitung profit range antara kedua titik
+   - Menyimpan hasil dalam file results_[n].txt
+   - Membuat script GNUplot untuk visualisasi dengan:
+     * Grafik Revenue
+     * Grafik Cost
+     * Grafik Profit
+
+4. **Output dan Visualisasi**
+   Program menghasilkan:
+   - Tabel koefisien (a, b, c, d, e)
+   - Detail iterasi metode Secant
+   - Titik break-even rendah dan tinggi
+   - Tabel data (Quantity, Revenue, Cost, Profit)
+   - File GNUplot untuk visualisasi grafik
+
+Program ini membaca koefisien dari dataset.txt dan memproses setiap set menggunakan fungsi processDataset():
 
 ```c
 double a, b, c, d, e;
@@ -310,8 +355,6 @@ if (fscanf(input, "%lf %lf %lf %lf %lf", &a, &b, &c, &d, &e) != 5) {
 }
 processDataset(i, a, b, c, d, e);
 ```
-
-Koefisien diolah menggunakan fungsi `processDataset()` yang menerima indeks dataset serta setiap koefisien. 
 
 ## Tim Pengembang
 
