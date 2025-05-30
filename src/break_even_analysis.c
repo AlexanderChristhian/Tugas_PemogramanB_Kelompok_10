@@ -8,18 +8,13 @@
 #define MAX_ITERATIONS 100
 #define EPSILON 0.0001
 
-// Function to calculate profit derivative at a given quantity
-double calculateProfitDerivative(double x, double a, double b, double c, double d, double e) {
-    return a - 3*b*pow(x,2) - 2*c*x - 0.01*d*exp(0.01*x); 
-}
-
 // Function to calculate profit at a given quantity
 double calculateProfit(double x, double a, double b, double c, double d, double e) {
     // Revenue: R(x) = a*x - b*x^3 (cubic revenue decay)
     double revenue = a * x - b * pow(x, 3);
     
     // Cost: C(x) = c*x^2 + d*exp(0.01*x) + e (quadratic + exponential costs)
-    double cost = c * pow(x, 2) + d * exp(0.01 * x) + e;
+    double cost = c * x * x + d * exp(0.01 * x) + e;
     
     // Profit: P(x) = R(x) - C(x)
     return revenue - cost;
@@ -36,7 +31,7 @@ double secantMethod(double x0, double x1, double a, double b, double c, double d
     printf("Iter |    x0    |    x1    |    x2    |  P'(x2)  \n");
     printf("---------------------------------------------\n");
     
-    do {
+    do {    
         f0 = func(x0, a, b, c, d, e);
         f1 = func(x1, a, b, c, d, e);
         
@@ -76,7 +71,7 @@ void displayCoefficients(double a, double b, double c, double d, double e) {
 }
 
 void saveMetadataToFile(FILE *fp, double a, double b, double c, double d, double e,
-                       double x0, double x1, double optimalPoint, double optimalProfit,
+                       double x0, double x1, double breakEvenPoint,
                        int iterations) {
     fprintf(fp, "Coefficients:\n");
     fprintf(fp, "a = %.2f\n", a);
@@ -90,9 +85,8 @@ void saveMetadataToFile(FILE *fp, double a, double b, double c, double d, double
     fprintf(fp, "x1 = %.2f\n\n", x1);
     
     fprintf(fp, "Results:\n");
-    fprintf(fp, "Optimal quantity = %.2f\n", optimalPoint);
-    fprintf(fp, "Maximum profit = %.2f\n", optimalProfit);
-    fprintf(fp, "Total iterations = %d\n\n", iterations);
+    fprintf(fp, "Break-Even quantity = %.2f\n", breakEvenPoint);
+    fprintf(fp, "Total iterations    = %d\n\n", iterations);
     
     fprintf(fp, "\nData Points:\n");
     fprintf(fp, "%-10s %-12s %-12s %-12s\n", "Quantity", "Revenue", "Cost", "Profit");
@@ -130,29 +124,27 @@ void processDataset(int datasetNum, double a, double b, double c, double d, doub
         return;
     }
 
-    // Better initial guesses
+    // Initial guesses
     double x0 = 50;
     double x1 = 150;
 
-    printf("\nFinding optimal profit point...\n");
+    printf("\nFinding break-even point...\n");
     int iter_count = 0;
-    double optimalPoint = secantMethod(x0, x1, a, b, c, d, e, calculateProfitDerivative, &iter_count);
+    double breakEvenPoint = secantMethod(x0, x1, a, b, c, d, e, calculateProfit, &iter_count);
     
-    if (optimalPoint < 0) {
-        printf("Failed to find optimal point\n");
+    if (breakEvenPoint < 0) {
+        printf("Failed to find break-even point\n");
         fclose(output);
         return;
     }
 
-    double optimalProfit = calculateProfit(optimalPoint, a, b, c, d, e);
     
-    saveMetadataToFile(output, a, b, c, d, e, x0, x1, optimalPoint, optimalProfit, iter_count);
+    saveMetadataToFile(output, a, b, c, d, e, x0, x1, breakEvenPoint, iter_count);
     
-    printf("\nOptimal Results:\n");
+    printf("\nBreak-Even Results:\n");
     printf("---------------------------\n");
-    printf("Optimal quantity: %.2f\n", optimalPoint);
-    printf("Maximum profit: %.2f\n", optimalProfit);
-    printf("Total iterations: %d\n", iter_count);
+    printf("Break-Even quantity\t: %.2f\n", breakEvenPoint);
+    printf("Total iterations\t: %d\n", iter_count);
 
     printTableHeader();
     for (double quantity = MIN_QUANTITY; quantity <= MAX_QUANTITY; quantity += STEP) {

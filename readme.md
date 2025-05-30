@@ -73,7 +73,25 @@ gcc ./src/main.c -o main
 
 <details open>
 
-<summary> Executing the File </summary>
+<summary> Generating Dataset </summary>
+
+On Windows
+```console
+cd src
+./dataset_generator.exe
+```
+
+On Linux
+```console
+cd src
+./dataset_generator
+```
+
+</details>
+
+<details open>
+
+<summary> Executing the Dataset and Plotting with gnuplot </summary>
 
 On Windows
 ```console
@@ -147,6 +165,8 @@ Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang 
 </div>
 
 ## Program Explanations
+
+### Dataset
 
 Program menciptakan sejumlah dataset untuk setiap koefisien dengan nilai acak dalam rentang serta keterangan berikut:
 
@@ -253,6 +273,47 @@ Parameter ini dipilih untuk mensimulasikan skenario bisnis yang realistis dengan
 - Biaya tetap yang moderat
 
 - Kompleksitas operasional yang meningkat secara kuadratik
+
+Program `dataset_generator.c` menciptakan dataset menggunakan rand() serta srand() yang menggunakan seed acak ataupun dapat dispesifikasikan dalam CLI menggunakan `./dataset_generator [SEED]`.
+
+Koefisien diciptakan dengan sebuah fungsi `generateCoefficients()` 
+```c
+void generateCoefficients(double *a, double *b, double *c, double *d, double *e) {
+    // Revenue coefficients (R(x) = a*x - b*x^3)
+    *a = 200 + (rand() % 101); 
+    *b = 0.0005 + (rand() % 6)/10000.0; 
+    
+    // Cost coefficients (C(x) = c*x^2 + d*exp(0.01x) + e)
+    *c = 0.10 + (rand() % 15)/100.0; 
+    *d = 100 + (rand() % 101); 
+    *e = 2000 + (rand() % 3001); 
+}
+```
+
+Sehingga dapat dituliskan ke dalam sebuah file `dataset.txt` 
+```c
+fp = fopen("dataset.txt", "w");
+...
+generateCoefficients(&a, &b, &c, &d, &e);
+...
+fprintf(fp, "%.2f %.4f %.2f %.2f %.2f\n", a, b, c, d, e);
+
+```
+
+### Break-Even Analysis
+
+Program `break_even_analysis.c` membaca setiap koefisien yang telah diciptakan dalam `dataset.txt` untuk diproses menggunakan metode secant.
+
+```c
+double a, b, c, d, e;
+if (fscanf(input, "%lf %lf %lf %lf %lf", &a, &b, &c, &d, &e) != 5) {
+    printf("Error reading dataset %d\n", i);
+    continue;
+}
+processDataset(i, a, b, c, d, e);
+```
+
+Koefisien diolah menggunakan fungsi `processDataset()` yang menerima indeks dataset serta setiap koefisien. 
 
 ## Tim Pengembang
 
