@@ -100,9 +100,7 @@ cd src
 <td>
 
 $$
-
 R(x) = ax-bx^3
-
 $$
 
 </td>
