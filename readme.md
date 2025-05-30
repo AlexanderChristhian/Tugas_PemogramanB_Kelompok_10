@@ -122,14 +122,13 @@ $$
 
 ### Fungsi Biaya
 
-
 <table>
 
 <tr>
 <td>
 
 $$
-C(x)=cx^2+de^{0.01x}+e
+C(x) = cx^2+de^{0.01x}+e
 $$
 
 </td>
@@ -160,7 +159,7 @@ Break Even Point terjadi ketika:
 <td>
 
 $$
-ax - bx^3=cx^2+de^{0.01x}+e
+ax - bx^3 = cx^2+de^{0.01x}+e
 $$
 
 </td>
