@@ -129,6 +129,9 @@ $$
 C(x)=cx^2+de^{0.01x}+e
 $$
 
+</td>
+</tr>
+
 <tr>
 <td>
 
@@ -153,7 +156,8 @@ Break Even Point terjadi ketika:
 $$
 ax - bx^3=cx^2+de^{0.01x}+e
 $$
-
+</td>
+</tr>
 </td>
 </tr>
 </table>
@@ -169,7 +173,8 @@ $$
 {- bx^3-cx^2+ax-de^{0.01x}-e=0}
 $$
 
-
+</td>
+</tr>
 <tr>
 <td>
 
