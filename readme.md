@@ -11,7 +11,7 @@
 <div align="justify">
 Proyek ini mengimplementasi analisis break-even point pada model biaya dan pendapatan non-linear menggunakan metode numerik. Dengan menggunakan metode Secant untuk mencari titik impas (Break Even Point).
 
-Implementasi dilakukan dalam bahasa C dengan visualisasi menggunakan GNUplot.
+Implementasi dilakukan dalam bahasa C dan divisualisasikan menggunakan GNUplot.
 </div>
 
 ## Instalasi dan Kompilasi
@@ -138,19 +138,102 @@ Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang 
 
 ## Program Explanations
 
-Program akan menciptakan dataset untuk setiap koefisien dengan keterangan berikut:
+Program menciptakan sejumlah dataset untuk setiap koefisien dengan nilai acak dalam rentang serta keterangan berikut:
 
-- a: nilai acak antara 200-300 (tingkat pendapatan yang tinggi)
+<table>
+<tr>
+    <th rowspan="2">
+        Koefisien
+    </th>
+    <th colspan="2">
+        Rentang
+    </th>
+    <th rowspan="2">
+        Keterangan
+    </th>
+</tr>
+<tr>
+    <td>
+        Min.
+    </td>
+    <td>
+        Maks.
+    </td>
+</tr>
+<tr>
+    <td>
+        a
+    </td>
+    <td>
+        200 
+    </td>
+    <td>
+        300
+    </td>
+    <td>
+        tingkat pendapatan yang tinggi
+    </td>
+</tr>
+<tr>
+    <td>
+        b
+    </td>
+    <td>
+        0.0005
+    </td>
+    <td>
+        0.0011
+    </td>
+    <td>
+        tingkat penurunan yang rendah
+    </td>
+</tr>
+<tr>
+    <td>
+        c
+    </td>
+    <td>
+        0.10 
+    </td>
+    <td> 
+        0.25
+    </td>
+    <td>
+        kenaikan biaya yang lebih curam
+    </td>
+</tr>
+<tr>
+    <td>
+        d
+    </td>
+    <td>
+        100 
+    </td>
+    <td> 
+        200
+    </td>
+    <td>
+        biaya variabel eksponensial yang wajar
+    </td>
+</tr>
+<tr>
+    <td>
+        d
+    </td>
+    <td>
+        2000 
+    </td>
+    <td> 
+        5000
+    </td>
+    <td>
+        biaya tetap yang moderat
+    </td>
+</tr>
+</table>
 
-- b: nilai acak antara 0.0005-0.0011 (tingkat penurunan yang rendah)
-
-- c: nilai acak antara 0.10-0.25 (kenaikan biaya yang lebih curam)
-
-- d:  nilai acak antara 100-200 (biaya variabel eksponensial yang wajar)
-- e: nilai acak antara 2000-5000 (biaya tetap yang moderat)
 
 Parameter ini dipilih untuk mensimulasikan skenario bisnis yang realistis dengan:
-
 - Pendapatan awal yang tinggi namun menurun seiring peningkatan kuantitas
 
 - Pendapatan yang menurun drastis ketika terjadi oversupply (harga menurun)
