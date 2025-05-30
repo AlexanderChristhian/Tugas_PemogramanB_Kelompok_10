@@ -112,8 +112,6 @@ cd src
 
 ### Fungsi Pendapatan
 
-### Fungsi Pendapatan
-
 $$
 R(x) = ax - bx^3
 $$
