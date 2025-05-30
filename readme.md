@@ -95,6 +95,7 @@ cd src
 ### Fungsi Pendapatan
 
 <table>
+
 <tr>
 <td>
 
@@ -116,12 +117,14 @@ $$
 
 </td>
 </tr>
+
 </table>
 
 ### Fungsi Biaya
 
 
 <table>
+
 <tr>
 <td>
 
@@ -143,28 +146,35 @@ $$
 
 </td>
 </tr>
+
 </table>
 
 ### Break Even Point
 
 Break Even Point terjadi ketika:
 
+
 <table>
+
 <tr>
 <td>
 
 $$
 ax - bx^3=cx^2+de^{0.01x}+e
 $$
+
 </td>
 </tr>
+
 </td>
 </tr>
+
 </table>
 
 atau juga bisa didefinisikan sebagai;
 
 <table>
+
 <tr>
 <td>
 
@@ -175,6 +185,7 @@ $$
 
 </td>
 </tr>
+
 <tr>
 <td>
 
@@ -186,6 +197,7 @@ $$
 
 </td>
 </tr>
+
 </table>
 
 <div align="justify">
