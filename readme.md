@@ -94,9 +94,19 @@ cd src
 
 ### Fungsi Pendapatan
 
+<table>
+<tr>
+<td>
+
 $$
 R(x) = ax-bx^3
 $$
+
+</td>
+</tr>
+
+<tr>
+<td>
 
 - a: Koefisien pendapatan linear (harga per unit)
 
@@ -104,12 +114,23 @@ $$
 
 - x: jumlah unit yang diproduksi/dijual
 
+</td>
+</tr>
+</table>
+
 ### Fungsi Biaya
+
+
+<table>
+<tr>
+<td>
 
 $$
 C(x)=cx^2+de^{0.01x}+e
 $$
 
+<tr>
+<td>
 
 - c: Koefisien biaya kuadratik
 
@@ -117,20 +138,50 @@ $$
 
 - e: biaya tetap
 
+</td>
+</tr>
+</table>
+
 ### Break Even Point
 
 Break Even Point terjadi ketika:
 
+<table>
+<tr>
+<td>
 
 $$
 ax - bx^3=cx^2+de^{0.01x}+e
 $$
 
+</td>
+</tr>
+</table>
+
 atau juga bisa didefinisikan sebagai;
+
+<table>
+<tr>
+<td>
+
 
 $$
 {- bx^3-cx^2+ax-de^{0.01x}-e=0}
 $$
+
+
+<tr>
+<td>
+
+- a = Koefisien pendapatan Linear
+- b = Koefisien penurunan pendapatan
+- c = Koefisien biaya kuadratik
+- d = Koefisien biaya variabel
+- e = Biaya tetap
+
+</td>
+</tr>
+</table>
 
 <div align="justify">
 Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang menandakan rentang operasi yang menguntungkan di antara kedua titik tersebut.
