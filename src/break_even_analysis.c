@@ -184,6 +184,8 @@ void processDataset(int datasetNum, double a, double b, double c, double d, doub
         double cost = c * pow(quantity, 2) + d * quantity + e;
         double profit = revenue - cost;
 
+        if (revenue < 0) break;
+
         printTableRow(quantity, revenue, cost, profit);
         saveToFile(quantity, revenue, cost, profit, output);
     }
