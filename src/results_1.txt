@@ -6,13 +6,19 @@ d = 105.00
 e = 3381.00
 
 Initial Points:
-x0 = 50.00
-x1 = 150.00
+x0 = 0.00
+x1 = 500.00
 
 Results:
-Break-Even quantity = 12.80
-Total iterations    = 5
 
+Break-Even Results:
+---------------------------
+Low Break-Even quantity	: 12.80
+Total iterations	: 5
+High Break-Even quantity	: 419.36
+Total iterations	: 7
+---------------------------
+Profit range	: 406.56
 
 Data Points:
 Quantity   Revenue      Cost         Profit      

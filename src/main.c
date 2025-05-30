@@ -21,11 +21,11 @@ int main()
     printf("=== Profit Analysis Program ===\n\n");
 
     // Step 1: Run break-even analysis
-    printf("\n2. Running break-even analysis...\n");
+    printf("\n1. Running break-even analysis...\n");
     system(ANALYSIS);
 
     // Step 2: Run gnuplot for all 5 plots concurrently (no threading)
-    printf("\n3. Generating plots...\n");
+    printf("\n2. Generating plots...\n");
     printf("Please press enter or Ctrl+C to exit after plots are displayed.\n");
 
     for (int i = 1; i <= 5; i++) {

@@ -71,8 +71,8 @@ void displayCoefficients(double a, double b, double c, double d, double e) {
 }
 
 void saveMetadataToFile(FILE *fp, double a, double b, double c, double d, double e,
-                       double x0, double x1, double breakEvenPoint,
-                       int iterations) {
+                       double x0, double x1, double lowBreak,
+                       int lowIter, double highBreak, int highIter) {
     fprintf(fp, "Coefficients:\n");
     fprintf(fp, "a = %.2f\n", a);
     fprintf(fp, "b = %.4f\n", b);
@@ -85,8 +85,25 @@ void saveMetadataToFile(FILE *fp, double a, double b, double c, double d, double
     fprintf(fp, "x1 = %.2f\n\n", x1);
     
     fprintf(fp, "Results:\n");
-    fprintf(fp, "Break-Even quantity = %.2f\n", breakEvenPoint);
-    fprintf(fp, "Total iterations    = %d\n\n", iterations);
+
+    double profitRange = highBreak - lowBreak;
+
+    if (fabsl(profitRange) < 0.01) {
+        fprintf(fp, "Failed to find Profit-Range");
+        fprintf(fp, "\nBreak-Even Result:\n");
+        fprintf(fp, "---------------------------\n");
+        fprintf(fp, "Break-Even quantity\t: %.2f\n", lowBreak);
+        fprintf(fp, "Total iterations\t: %d\n", lowIter);
+    } else {
+        fprintf(fp, "\nBreak-Even Results:\n");
+        fprintf(fp, "---------------------------\n");
+        fprintf(fp, "Low Break-Even quantity\t: %.2f\n", lowBreak);
+        fprintf(fp, "Total iterations\t: %d\n", lowIter);
+        fprintf(fp, "High Break-Even quantity\t: %.2f\n", highBreak);
+        fprintf(fp, "Total iterations\t: %d\n", highIter);
+        fprintf(fp, "---------------------------\n");
+        fprintf(fp, "Profit range\t: %.2f\n", profitRange);
+    }
     
     fprintf(fp, "\nData Points:\n");
     fprintf(fp, "%-10s %-12s %-12s %-12s\n", "Quantity", "Revenue", "Cost", "Profit");
@@ -125,26 +142,65 @@ void processDataset(int datasetNum, double a, double b, double c, double d, doub
     }
 
     // Initial guesses
-    double x0 = 50;
-    double x1 = 150;
+    double x0 = 0;
+    double x1 = 500;
 
-    printf("\nFinding break-even point...\n");
-    int iter_count = 0;
-    double breakEvenPoint = secantMethod(x0, x1, a, b, c, d, e, calculateProfit, &iter_count);
+    double xmid = (x0 + x1) / 2;
+
+    printf("\nFinding break-even points...\n");
+
+    int lowIter = 0;
+    double lowBreak = secantMethod(x0, xmid, a, b, c, d, e, calculateProfit, &lowIter);
     
-    if (breakEvenPoint < 0) {
+    if (lowBreak < 0) {
         printf("Failed to find break-even point\n");
         fclose(output);
         return;
     }
 
+    int highIter = 0;
+    double highBreak = secantMethod(xmid, x1, a, b, c, d, e, calculateProfit, &highIter);
     
-    saveMetadataToFile(output, a, b, c, d, e, x0, x1, breakEvenPoint, iter_count);
-    
-    printf("\nBreak-Even Results:\n");
-    printf("---------------------------\n");
-    printf("Break-Even quantity\t: %.2f\n", breakEvenPoint);
-    printf("Total iterations\t: %d\n", iter_count);
+    if (highBreak < 0) {
+        printf("Failed to find break-even point\n");
+        fclose(output);
+        return;
+    }
+
+    // Swap if high break is greater
+    if (lowBreak > highBreak) {
+        {
+            int temp = highIter;
+            highIter = lowIter;
+            lowIter = temp;
+        }
+        {
+            double temp = highBreak;
+            highBreak = lowBreak;
+            lowBreak = temp;
+        }
+    }
+
+    double profitRange = highBreak - lowBreak;
+
+    if (fabsl(profitRange) < 0.01) {
+        printf("Failed to find Profit-Range");
+        printf("\nBreak-Even Result:\n");
+        printf("---------------------------\n");
+        printf("Break-Even quantity\t: %.2f\n", lowBreak);
+        printf("Total iterations\t: %d\n", lowIter);
+    } else {
+        printf("\nBreak-Even Results:\n");
+        printf("---------------------------\n");
+        printf("Low Break-Even quantity\t: %.2f\n", lowBreak);
+        printf("Total iterations\t: %d\n", lowIter);
+        printf("High Break-Even quantity\t: %.2f\n", highBreak);
+        printf("Total iterations\t: %d\n", highIter);
+        printf("---------------------------\n");
+        printf("Profit range\t: %.2f\n", profitRange);
+    }
+
+    saveMetadataToFile(output, a, b, c, d, e, x0, x1, lowBreak, lowIter, highBreak, highIter); 
 
     printTableHeader();
     for (double quantity = MIN_QUANTITY; quantity <= MAX_QUANTITY; quantity += STEP) {
