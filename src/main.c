@@ -12,8 +12,8 @@
 #else
     #include <unistd.h>
     #define SLEEP(ms) sleep(ms/1000)
-    #define GENERATOR "./dataset_generator"
-    #define ANALYSIS "./break_even_analysis"
+    #define GENERATOR "./src/dataset_generator"
+    #define ANALYSIS "./src/break_even_analysis"
     #define GNUPLOT "gnuplot"
 #endif
 

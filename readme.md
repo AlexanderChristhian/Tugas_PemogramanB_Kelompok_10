@@ -11,7 +11,7 @@
 <div align="justify">
 Proyek ini mengimplementasi analisis break-even point pada model biaya dan pendapatan non-linear menggunakan metode numerik. Dengan menggunakan metode Secant untuk mencari titik impas (Break Even Point).
 
-Implementasi dilakukan dalam bahasa C dengan visualisasi menggunakan GNUplot.
+Implementasi dilakukan dalam bahasa C dan divisualisasikan menggunakan GNUplot.
 </div>
 
 ## Instalasi dan Kompilasi
@@ -94,36 +94,53 @@ cd src
 
 ### Fungsi Pendapatan
 
-![](https://latex.codecogs.com/svg.image?$R(x)=ax-bx^3$)
+### Fungsi Pendapatan
 
-- a: Koefisien pendapatan linear (harga per unit)
+$$
+R(x) = ax - bx^3
+$$
 
-- b: Koefisien penurunan pendapatan
+| Simbol | Keterangan                          |
+|--------|-------------------------------------|
+| a      | Koefisien pendapatan linear (harga per unit) |
+| b      | Koefisien penurunan pendapatan      |
+| x      | Jumlah unit yang diproduksi/dijual  |
 
-- x: jumlah unit yang diproduksi/dijual
 
 ### Fungsi Biaya
 
-![](https://latex.codecogs.com/svg.image?$C(x)=cx^2&plus;de^{0.01x}&plus;e$)
+$$
+C(x) = cx^2 + de^{0.01x} + e
+$$
 
-- c: Koefisien biaya kuadratik
-
-- d: Koefisien biaya variabel
-
-- e: biaya tetap
+| Simbol | Keterangan                          |
+|--------|-------------------------------------|
+| c      | Koefisien biaya kuadratik           |
+| d      | Koefisien biaya variabel            |
+| e      | Biaya tetap                         |
 
 ### Break Even Point
 
 Break Even Point terjadi ketika:
 
+$$
+ax - bx^3 = cx^2 + de^{0.01x} + e
+$$
 
-![](https://latex.codecogs.com/svg.image?$R(x)=C(x)$)
+Atau disusun ulang menjadi:
 
-atau juga bisa didefinisikan sebagai;
+$$
+{- bx^3 - cx^2 + ax - de^{0.01x} - e = 0}
+$$
 
-![](https://latex.codecogs.com/svg.image?$ax-bx^3=cx^2&plus;de^{0.01x}&plus;e$)
+| Simbol | Keterangan                          |
+|--------|-------------------------------------|
+| a      | Koefisien pendapatan linear         |
+| b      | Koefisien penurunan pendapatan      |
+| c      | Koefisien biaya kuadratik           |
+| d      | Koefisien biaya variabel            |
+| e      | Biaya tetap                         |
 
-![](https://latex.codecogs.com/svg.image?-bx^3-cx^2&plus;ax-de^{0.01x}-e=0)
 
 <div align="justify">
 Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang menandakan rentang operasi yang menguntungkan di antara kedua titik tersebut.
@@ -131,19 +148,102 @@ Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang 
 
 ## Program Explanations
 
-Program akan menciptakan dataset untuk setiap koefisien dengan keterangan berikut:
+Program menciptakan sejumlah dataset untuk setiap koefisien dengan nilai acak dalam rentang serta keterangan berikut:
 
-- a: nilai acak antara 200-300 (tingkat pendapatan yang tinggi)
+<table>
+<tr>
+    <th rowspan="2">
+        Koefisien
+    </th>
+    <th colspan="2">
+        Rentang
+    </th>
+    <th rowspan="2">
+        Keterangan
+    </th>
+</tr>
+<tr>
+    <td>
+        Min.
+    </td>
+    <td>
+        Maks.
+    </td>
+</tr>
+<tr>
+    <td>
+        a
+    </td>
+    <td>
+        200 
+    </td>
+    <td>
+        300
+    </td>
+    <td>
+        tingkat pendapatan yang tinggi
+    </td>
+</tr>
+<tr>
+    <td>
+        b
+    </td>
+    <td>
+        0.0005
+    </td>
+    <td>
+        0.0011
+    </td>
+    <td>
+        tingkat penurunan yang rendah
+    </td>
+</tr>
+<tr>
+    <td>
+        c
+    </td>
+    <td>
+        0.10 
+    </td>
+    <td> 
+        0.25
+    </td>
+    <td>
+        kenaikan biaya yang lebih curam
+    </td>
+</tr>
+<tr>
+    <td>
+        d
+    </td>
+    <td>
+        100 
+    </td>
+    <td> 
+        200
+    </td>
+    <td>
+        biaya variabel eksponensial yang wajar
+    </td>
+</tr>
+<tr>
+    <td>
+        e
+    </td>
+    <td>
+        2000 
+    </td>
+    <td> 
+        5000
+    </td>
+    <td>
+        biaya tetap yang moderat
+    </td>
+</tr>
+</table>
 
-- b: nilai acak antara 0.0005-0.0011 (tingkat penurunan yang rendah)
-
-- c: nilai acak antara 0.10-0.25 (kenaikan biaya yang lebih curam)
-
-- d:  nilai acak antara 100-200 (biaya variabel eksponensial yang wajar)
-- e: nilai acak antara 2000-5000 (biaya tetap yang moderat)
 
 Parameter ini dipilih untuk mensimulasikan skenario bisnis yang realistis dengan:
-
 - Pendapatan awal yang tinggi namun menurun seiring peningkatan kuantitas
 
 - Pendapatan yang menurun drastis ketika terjadi oversupply (harga menurun)
