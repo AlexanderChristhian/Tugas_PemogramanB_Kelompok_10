@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <pthread.h>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -7,15 +9,22 @@
     #define GENERATOR "dataset_generator.exe"
     #define ANALYSIS "break_even_analysis.exe"
     #define GNUPLOT "gnuplot"
-    #define BACKGROUND_CMD " /B " // Windows background execution
 #else
     #include <unistd.h>
     #define SLEEP(ms) sleep(ms/1000)
     #define GENERATOR "./dataset_generator"
     #define ANALYSIS "./break_even_analysis"
     #define GNUPLOT "gnuplot"
-    #define BACKGROUND_CMD " &" // Unix background execution
 #endif
+
+// Function to run gnuplot for a specific plot file
+void* run_gnuplot(void* arg) {
+    int plot_number = *(int*)arg;
+    char cmd[100];
+    sprintf(cmd, "%s plot_%d.gnu", GNUPLOT, plot_number);
+    system(cmd);
+    return NULL;
+}
 
 int main()
 {
@@ -32,16 +41,23 @@ int main()
     printf("\n2. Running break-even analysis...\n");
     system(ANALYSIS);
     
-    // Run gnuplot for all 5 plots simultaneously
+    // Run gnuplot for all 5 plots using threads
     printf("\n3. Generating plots...\n");
-    for (int i = 1; i <= 5; i++) {
-        char cmd[100];
-        sprintf(cmd, "%s plot_%d.gnu%s", GNUPLOT, i, BACKGROUND_CMD);
-        system(cmd);
+    pthread_t threads[5];
+    int plot_numbers[5];
+
+    printf("Please press enter of ctrl + c multiple times to stop the program.\n");
+    
+    for (int i = 0; i < 5; i++) {
+        plot_numbers[i] = i + 1;
+        pthread_create(&threads[i], NULL, run_gnuplot, &plot_numbers[i]);
     }
     
-    // Small delay to keep program running while plots display
-    SLEEP(2000);
+    // Wait for all threads to finish
+    for (int i = 0; i < 5; i++) {
+        pthread_join(threads[i], NULL);
+    }
+    
     printf("\nProgram completed successfully!\n");
     return 0;
 }
