@@ -4,12 +4,16 @@
 
 // Function to generate one set of coefficients
 void generateCoefficients(double *a, double *b, double *c, double *d, double *e) {
-    *a = 100 + (rand() % 51); // Random value between 100-150 (higher revenue rate)
-    *b = 0.05 + ((double)(rand() % 5) / 100); // Random value between 0.05-0.10 (lower decay)
-    *c = 0.02 + ((double)(rand() % 3) / 100); // Random value between 0.02-0.05 (lower quadratic cost)
-    *d = 30 + (rand() % 21); // Random value between 30-50 (reasonable variable cost)
-    *e = 500 + (rand() % 501); // Random value between 500-1000 (lower fixed cost)
+    // Revenue coefficients (R(x) = a*x - b*x^3)
+    *a = 200 + (rand() % 101);  // 200–300 (higher revenue per unit)
+    *b = 0.0005 + (rand() % 6)/10000.0;  // 0.0005–0.0011 (gentler decay)
+    
+    // Cost coefficients (C(x) = c*x^2 + d*exp(0.01x) + e)
+    *c = 0.10 + (rand() % 15)/100.0;  // 0.10–0.25 (steeper cost growth)
+    *d = 100 + (rand() % 101);  // 100–200 (faster cost acceleration)
+    *e = 2000 + (rand() % 3001);  // 2000–5000
 }
+
 
 int main() {
     FILE *fp;
@@ -30,11 +34,11 @@ int main() {
         generateCoefficients(&a, &b, &c, &d, &e);
 
         // Write coefficients to file
-        fprintf(fp, "%.2f %.2f %.2f %.2f %.2f\n", a, b, c, d, e);
+        fprintf(fp, "%.2f %.4f %.2f %.2f %.2f\n", a, b, c, d, e);
 
         printf("Dataset %d:\n", i + 1);
-        printf("Revenue function: R(x) = %.2fx - %.2fx^2\n", a, b);
-        printf("Cost function: C(x) = %.2fx^2 + %.2fx + %.2f\n\n", c, d, e);
+        printf("Revenue function: R(x) = %.2fx - %.4fx^3\n", a, b);
+        printf("Cost function: C(x) = %.2fx^2 + %.2fe^(0.01x) + %.2f\n\n", c, d, e);
     }
 
     fclose(fp);
