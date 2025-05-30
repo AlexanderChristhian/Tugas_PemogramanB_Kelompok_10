@@ -94,7 +94,9 @@ cd src
 
 ### Fungsi Pendapatan
 
-![](https://latex.codecogs.com/svg.image?$R(x)=ax-bx^3$)
+$$
+R(x) = ax-bx^3
+$$
 
 - a: Koefisien pendapatan linear (harga per unit)
 
@@ -104,7 +106,10 @@ cd src
 
 ### Fungsi Biaya
 
-![](https://latex.codecogs.com/svg.image?$C(x)=cx^2&plus;de^{0.01x}&plus;e$)
+$$
+C(x)=cx^2+de^{0.01x}+e
+$$
+
 
 - c: Koefisien biaya kuadratik
 
@@ -117,13 +122,15 @@ cd src
 Break Even Point terjadi ketika:
 
 
-![](https://latex.codecogs.com/svg.image?$R(x)=C(x)$)
+$$
+ax - bx^3=cx^2+de^{0.01x}+e
+$$
 
 atau juga bisa didefinisikan sebagai;
 
-![](https://latex.codecogs.com/svg.image?$ax-bx^3=cx^2&plus;de^{0.01x}&plus;e$)
-
-![](https://latex.codecogs.com/svg.image?-bx^3-cx^2&plus;ax-de^{0.01x}-e=0)
+$$
+{- bx^3-cx^2+ax-de^{0.01x}-e=0}
+$$
 
 <div align="justify">
 Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang menandakan rentang operasi yang menguntungkan di antara kedua titik tersebut.
