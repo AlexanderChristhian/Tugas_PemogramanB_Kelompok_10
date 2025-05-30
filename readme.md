@@ -285,7 +285,7 @@ Program menciptakan sejumlah dataset untuk setiap koefisien dengan nilai acak da
 </tr>
 <tr>
     <td>
-        d
+        e
     </td>
     <td>
         2000 
