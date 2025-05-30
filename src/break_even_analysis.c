@@ -68,7 +68,7 @@ void displayCoefficients(double a, double b, double c, double d, double e) {
     printf("\nCoefficients Table:\n");
     printf("+---+--------+\n");
     printf("| a | %6.2f |\n", a);
-    printf("| b | %6.2f |\n", b);
+    printf("| b | %6.4f |\n", b);
     printf("| c | %6.2f |\n", c);
     printf("| d | %6.2f |\n", d);
     printf("| e | %6.2f |\n", e);
@@ -80,7 +80,7 @@ void saveMetadataToFile(FILE *fp, double a, double b, double c, double d, double
                        int iterations) {
     fprintf(fp, "Coefficients:\n");
     fprintf(fp, "a = %.2f\n", a);
-    fprintf(fp, "b = %.2f\n", b);
+    fprintf(fp, "b = %.4f\n", b);
     fprintf(fp, "c = %.2f\n", c);
     fprintf(fp, "d = %.2f\n", d);
     fprintf(fp, "e = %.2f\n\n", e);
