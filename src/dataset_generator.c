@@ -15,16 +15,16 @@ void generateCoefficients(double *a, double *b, double *c, double *d, double *e)
 }
 
 
-int main() {
+int main(int argc, char **argv) {
+    // Seed random number generator
+    srand(argc > 1 ? atoi(argv[1]) : time(NULL)); // Use CLI arg seed if specified
+
     FILE *fp;
     fp = fopen("dataset.txt", "w");
     if (fp == NULL) {
         printf("Error opening file!\n");
         return 1;
     }
-
-    // Seed random number generator
-    srand(time(NULL));
 
     printf("Generating 5 datasets:\n\n");
 
