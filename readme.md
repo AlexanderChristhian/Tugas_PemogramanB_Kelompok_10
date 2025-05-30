@@ -94,110 +94,53 @@ cd src
 
 ### Fungsi Pendapatan
 
-<table>
-
-<tr>
-<td>
+### Fungsi Pendapatan
 
 $$
-R(x) = ax-bx^3
+R(x) = ax - bx^3
 $$
 
-</td>
-</tr>
+| Simbol | Keterangan                          |
+|--------|-------------------------------------|
+| a      | Koefisien pendapatan linear (harga per unit) |
+| b      | Koefisien penurunan pendapatan      |
+| x      | Jumlah unit yang diproduksi/dijual  |
 
-<tr>
-<td>
-
-- a: Koefisien pendapatan linear (harga per unit)
-
-- b: Koefisien penurunan pendapatan
-
-- x: jumlah unit yang diproduksi/dijual
-
-</td>
-</tr>
-
-</table>
 
 ### Fungsi Biaya
 
-<table>
-
-<tr>
-<td>
-
 $$
-C(x) = cx^2+de^{0.01x}+e
+C(x) = cx^2 + de^{0.01x} + e
 $$
 
-</td>
-</tr>
-
-<tr>
-<td>
-
-- c: Koefisien biaya kuadratik
-
-- d: Koefisien biaya variabel
-
-- e: biaya tetap
-
-</td>
-</tr>
-
-</table>
+| Simbol | Keterangan                          |
+|--------|-------------------------------------|
+| c      | Koefisien biaya kuadratik           |
+| d      | Koefisien biaya variabel            |
+| e      | Biaya tetap                         |
 
 ### Break Even Point
 
 Break Even Point terjadi ketika:
 
-
-<table>
-
-<tr>
-<td>
-
 $$
-ax - bx^3 = cx^2+de^{0.01x}+e
+ax - bx^3 = cx^2 + de^{0.01x} + e
 $$
 
-</td>
-</tr>
-
-</td>
-</tr>
-
-</table>
-
-atau juga bisa didefinisikan sebagai;
-
-<table>
-
-<tr>
-<td>
-
+Atau disusun ulang menjadi:
 
 $$
-{- bx^3-cx^2+ax-de^{0.01x}-e=0}
+{- bx^3 - cx^2 + ax - de^{0.01x} - e = 0}
 $$
 
-</td>
-</tr>
+| Simbol | Keterangan                          |
+|--------|-------------------------------------|
+| a      | Koefisien pendapatan linear         |
+| b      | Koefisien penurunan pendapatan      |
+| c      | Koefisien biaya kuadratik           |
+| d      | Koefisien biaya variabel            |
+| e      | Biaya tetap                         |
 
-<tr>
-<td>
-
-- a = Koefisien pendapatan Linear
-- b = Koefisien penurunan pendapatan
-- c = Koefisien biaya kuadratik
-- d = Koefisien biaya variabel
-- e = Biaya tetap
-
-</td>
-</tr>
-
-</table>
 
 <div align="justify">
 Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang menandakan rentang operasi yang menguntungkan di antara kedua titik tersebut.
