@@ -22,7 +22,7 @@ Implementasi dilakukan dalam bahasa C dengan visualisasi menggunakan GNUplot.
     GCC (compiler C)
     </li>
     <li>
-    cmake (opsional, untuk mengcompile semua file C sekaligus)
+    make (opsional, untuk mengcompile semua file C sekaligus)
     </li>
     <li>
     Gnuplot (untuk visualisasi hasil)
@@ -64,9 +64,9 @@ make
 * Manual compilation
 
 ```console
-gcc src/dataset_generator.c -o dataset_generator -lm
-gcc src/break_even_analysis.c -o break_even_analysis -lm
-gcc src/main.c -o main
+gcc ./src/dataset_generator.c -o ./src/dataset_generator -lm
+gcc ./src/break_even_analysis.c -o ./break_even_analysis -lm
+gcc ./src/main.c -o main
 ```
 
 </details>
@@ -90,8 +90,69 @@ cd src
 </details>
 
 
-## 
+## Model Matematika
 
+### Fungsi Pendapatan
+
+![](https://latex.codecogs.com/svg.image?$R(x)=ax-bx^3$)
+
+- a: Koefisien pendapatan linear (harga per unit)
+
+- b: Koefisien penurunan pendapatan
+
+- x: jumlah unit yang diproduksi/dijual
+
+### Fungsi Biaya
+
+![](https://latex.codecogs.com/svg.image?$C(x)=cx^2&plus;de^{0.01x}&plus;e$)
+
+- c: Koefisien biaya kuadratik
+
+- d: Koefisien biaya variabel
+
+- e: biaya tetap
+
+### Break Even Point
+
+Break Even Point terjadi ketika:
+
+
+![](https://latex.codecogs.com/svg.image?$R(x)=C(x)$)
+
+atau juga bisa didefinisikan sebagai;
+
+![](https://latex.codecogs.com/svg.image?$ax-bx^3=cx^2&plus;de^{0.01x}&plus;e$)
+
+![](https://latex.codecogs.com/svg.image?-bx^3-cx^2&plus;ax-de^{0.01x}-e=0)
+
+<div align="justify">
+Karena persamaan ini berbentuk kuadratik, mungkin terdapat dua titik impas yang menandakan rentang operasi yang menguntungkan di antara kedua titik tersebut.
+</div>
+
+## Program Explanations
+
+Program akan menciptakan dataset untuk setiap koefisien dengan keterangan berikut:
+
+- a: nilai acak antara 200-300 (tingkat pendapatan yang tinggi)
+
+- b: nilai acak antara 0.0005-0.0011 (tingkat penurunan yang rendah)
+
+- c: nilai acak antara 0.10-0.25 (kenaikan biaya yang lebih curam)
+
+- d:  nilai acak antara 100-200 (biaya variabel eksponensial yang wajar)
+- e: nilai acak antara 2000-5000 (biaya tetap yang moderat)
+
+Parameter ini dipilih untuk mensimulasikan skenario bisnis yang realistis dengan:
+
+- Pendapatan awal yang tinggi namun menurun seiring peningkatan kuantitas
+
+- Pendapatan yang menurun drastis ketika terjadi oversupply (harga menurun)
+
+- Biaya variabel yang meningkat secara eksponensial
+
+- Biaya tetap yang moderat
+
+- Kompleksitas operasional yang meningkat secara kuadratik
 
 ## Tim Pengembang
 
